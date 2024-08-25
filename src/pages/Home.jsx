@@ -4,6 +4,7 @@ import {Link} from "react-router-dom"
 import HighlightText from '../components/core/HomePage/HighlightText'
 import CTAButton from "../components/core/HomePage/Button"
 import Banner from "../assets/Images/banner.mp4"
+import CodeBlocks from "../components/core/HomePage/CodeBlocks"
 const Home =()=>{
     return(
         <div>
@@ -43,7 +44,17 @@ const Home =()=>{
                 </div>
                 {/*Code Section 1*/}
                 <div>
-                    <CodeBlocks/>
+                    <CodeBlocks 
+                        position ={"lg:flex-row"}
+                        heading={
+                            <div className="text-4xl font-semibold">
+                                Unlock your
+                                <HighlightText text={"coding potential"}/>
+                                with our online courses
+                            </div>
+                        }
+                        
+                    />
                 </div>
             </div>
             {/*Section 2*/}
