@@ -36,10 +36,14 @@ const Home =()=>{
                     </CTAButton>
                 </div>
 
-                <div className='shadow-blue-200'>
+                <div className='mx-3 my-12 shadow-blue-200'>
                     <video muted loop autoPlay>
                     <source src={Banner} type="video/mp4"></source>
                     </video>
+                </div>
+                {/*Code Section 1*/}
+                <div>
+                    <CodeBlocks/>
                 </div>
             </div>
             {/*Section 2*/}
