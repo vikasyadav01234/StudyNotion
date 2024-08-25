@@ -53,7 +53,24 @@ const Home =()=>{
                                 with our online courses
                             </div>
                         }
-                        
+                        subheading={
+                            "Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
+                        }
+                        ctabtn1={
+                            {
+                                btnText:"Try it Yourself",
+                                linkto:"/signup",
+                                active:true,
+                            }
+                        }
+                        ctabtn2={
+                            {
+                                btnText:"Learn More",
+                                linkto:"/login",
+                                active:false,
+                            }
+                        }
+                        codeblock={``}
                     />
                 </div>
             </div>
