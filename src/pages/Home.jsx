@@ -175,6 +175,7 @@ const Home = () => {
                 </div>
                 
             </div>
+            
             <TimelineSection/>
             <LearningLanguageSection/>
             
