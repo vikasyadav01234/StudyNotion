@@ -1,6 +1,7 @@
 import React from "react";
 import { FooterLink2 } from "../../data/footer-links";
 import { Link } from "react-router-dom";
+import { FcLike } from "react-icons/fc";
 
 // Images
 import Logo from "../../assets/Logo/Logo-Full-Light.png";
@@ -172,7 +173,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center text-richblack-100">Made By Vikas with ❤️ CodeHelp © 2024 Studynotion</div>
+          <div className="text-center text-richblack-100 justify-center flex flex-row">Made By<a href="mailto:vikasyadav1offical@gmail.com"> Vikas</a> with <span> <FcLike /> </span>CodeHelp © 2024 Studynotion</div>
         </div>
       </div>
     </div>
