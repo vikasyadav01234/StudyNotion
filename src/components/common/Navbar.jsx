@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/Logo/Logo-Full-Light.png'
 import NavbarLinks from '../../data/navbar-links'
@@ -6,12 +6,31 @@ import { matchPath, useLocation } from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
+import { categories } from '../../services/apis'
+import { apiConnector } from '../../services/apiconnector'
 
 const Navbar=()=>{
     const {token}=useSelector((state)=>state.auth);
     const {user} = useSelector((state)=>state.profile);
     const {totalItems} = useSelector((state)=>state.cart)
     const location = useLocation()
+
+    const [subLinks,setSubLinks]= useState([])
+
+    const fetchSubLink=async()=>{
+        try{
+            const result = apiConnector("GET", categories.CATEGORIES_API);
+            console.log("Printing ubLink result", result);
+            setSubLinks((await result).data.data);
+        }
+        catch(error){
+            console.log("Could not fetch the category list");
+        }
+    }
+        useEffect(()=>{
+        
+    },[])
+
     const matchRoute =(route)=>{
         return matchPath({path:route}, location.pathname)
     }
