@@ -27,8 +27,8 @@ const Navbar=()=>{
             console.log("Could not fetch the category list");
         }
     }
-        useEffect(()=>{
-        
+    useEffect(()=>{
+        fetchSubLink();    
     },[])
 
     const matchRoute =(route)=>{
