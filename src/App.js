@@ -3,7 +3,7 @@ import {Route, Routes } from "react-router-dom";
 import Home from "./pages/Home"
 import Navbar from "./components/common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
-
+import ForgotPassword from "./pages/ForgotPassword.jsx"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 
@@ -26,6 +26,15 @@ function App() {
           element={
             <OpenRoute>
               <Login />
+            </OpenRoute>
+          }
+        />
+
+    <Route
+          path="forgot-password"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
             </OpenRoute>
           }
         />
