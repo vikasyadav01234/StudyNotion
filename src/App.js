@@ -4,6 +4,7 @@ import Home from "./pages/Home"
 import Navbar from "./components/common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
+import UpdatePassword from "./pages/UpdatePassword.jsx"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 
@@ -38,6 +39,14 @@ function App() {
             </OpenRoute>
           }
         />
+    <Route
+          path="update-password/:id"
+          element={
+            <OpenRoute>
+              <UpdatePassword />
+            </OpenRoute>
+          }
+        />  
     </Routes>
 
    </div>
