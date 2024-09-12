@@ -5,6 +5,7 @@ import Navbar from "./components/common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 import UpdatePassword from "./pages/UpdatePassword.jsx"
+import VerifyEmail from "./pages/VerifyEmail.jsx"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 
