@@ -4,6 +4,8 @@ import BannerImage1 from "../assets/Images/aboutus1.webp"
 import BannerImage2 from "../assets/Images/aboutus2.webp"
 import BannerImage3 from "../assets/Images/aboutus3.webp"
 import FoundingStory from "../assets/Images/FoundingStory.png"
+import StatsComponent from "../components/core/AboutPage/Stats"
+import Quote from "../components/core/AboutPage/Quote"
 
 const About =()=>{
     return(
@@ -21,6 +23,12 @@ const About =()=>{
                         <img src={BannerImage2} alt="Banner Image 2"/>
                         <img src={BannerImage3} alt="Banner Image 3"/>
                     </div>
+                </div>
+            </section>
+            {/* section 2 */}
+            <section>
+                <div>
+                    <Quote/>
                 </div>
             </section>
             
@@ -53,9 +61,19 @@ const About =()=>{
                         </div>
 
                         {/* right box */}
+                        <div>
+                            <h1>
+                                Our Mission
+                            </h1>
+                            <p>Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.</p>
+                        </div>
                     </div>
                 </div>
             </section>
+
+            {/* section 4 */}
+            <StatsComponent/>
+
         </div>
     )
 }
