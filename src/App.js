@@ -3,12 +3,13 @@ import {Route, Routes } from "react-router-dom";
 import Home from "./pages/Home"
 import Navbar from "./components/common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
-import ForgotPassword from "./pages/ForgotPassword.jsx"
-import UpdatePassword from "./pages/UpdatePassword.jsx"
-import VerifyEmail from "./pages/VerifyEmail.jsx"
+
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
-import About from "./pages/About"
+import ForgotPassword from "./pages/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword";
+import VerifyEmail from "./pages/VerifyEmail";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -40,7 +41,17 @@ function App() {
               <ForgotPassword />
             </OpenRoute>
           }
-        />
+        />  
+
+      <Route
+          path="verify-email"
+          element={
+            <OpenRoute>
+              <VerifyEmail />
+            </OpenRoute>
+          }
+        />  
+
     <Route
           path="update-password/:id"
           element={
@@ -49,15 +60,8 @@ function App() {
             </OpenRoute>
           }
         />  
+
     <Route
-          path="verify-email"
-          element={
-            <OpenRoute>
-              <VerifyEmail />
-            </OpenRoute>
-          }
-        />
-        <Route
           path="about"
           element={
             <OpenRoute>
@@ -65,6 +69,7 @@ function App() {
             </OpenRoute>
           }
         />  
+
 
     </Routes>
 
