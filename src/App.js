@@ -3,13 +3,16 @@ import {Route, Routes } from "react-router-dom";
 import Home from "./pages/Home"
 import Navbar from "./components/common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
-
+import MyProfile from "./components/core/Dashboard/MyProfile";
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import Settings from "./components/core/Dashboard/Settings"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -69,6 +72,17 @@ function App() {
             </OpenRoute>
           }
         />  
+        <Route
+          element={
+            <PrivateRoute>
+              <Dashboard/>
+            </PrivateRoute>
+          }
+        >
+        <Route path="dashboard/my-profile" element={<MyProfile/>} />
+        <Route path="dashboard/Settings" element={<Settings/>} />
+
+        </Route>
 
 
     </Routes>
