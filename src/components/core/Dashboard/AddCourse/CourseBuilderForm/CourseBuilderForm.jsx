@@ -42,8 +42,49 @@ const CourseBuilderForm = () => {
         courseId: course._id,
       },token)
     }
+
+    //update values
+    if(result) {
+      dispatch(setCourse(result));
+      setEditSectionName(null);
+      setValue("sectionName", "");
+    }
+
+    //loading false
+    setLoading(false);
   }
 
+  const cancelEdit = () =>{
+    setEditSectionName(null);
+    setValue("sectionName", "");
+  }
+
+  const goBack=()=>{
+    dispatch(setStep(1));
+    dispatch(setEditCourse(true));
+  }
+
+  const goToNext = () =>{
+    if(course?.courseContent?.length ===0){
+      toast.error("Please add at least one section");
+      return;
+    }
+    if(course.courseContent.some((section)=>section.subSection.length === 0)){
+      toast.error("Please add atleast one lecture in each section");
+      return;
+    }
+    //if everything is good
+    dispatch(setStep(3));
+  }
+
+  const handleChangeEditSectionName = (sectionId, sectionName)=>{
+    if(editSectionName === sectionId){
+      cancelEdit();
+      return;
+    }
+    setEditSectionName(sectionId);
+    setValue("sectionName", sectionName);
+  }
   return (
     <div className='text-white'>
       Step 2 me aapka swagat h 
