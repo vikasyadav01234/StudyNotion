@@ -84,4 +84,4 @@ exports.courseEnrollmentEmail = (courseName, name) => {
     </body>
     
     </html>`;
-  };
+  };  

@@ -82,4 +82,4 @@ exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
       </body>
       
       </html>`
-  }
+  }  
