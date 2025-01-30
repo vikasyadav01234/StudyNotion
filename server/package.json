@@ -1,31 +1,35 @@
 {
-  "name": "server",
+  "name": "serverback",
   "version": "1.0.0",
   "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-		"bcrypt": "^5.1.0",
-		"bcryptjs": "^2.4.3",
-		"cloudinary": "^1.36.4",
-		"cookie-parser": "^1.4.6",
-		"cors": "^2.8.5",
-		"crypto-random-string": "^5.0.0",
-		"dotenv": "^16.0.3",
-		"express": "^4.18.2",
-		"express-fileupload": "^1.4.0",
-		"jsonwebtoken": "^9.0.0",
-		"mongoose": "^7.0.3",
-		"node-schedule": "^2.1.1",
-		"nodemailer": "^6.9.1",
-		"nodemon": "^2.0.22",
-		"otp-generator": "^4.0.1",
-		"razorpay": "^2.8.6"
-	}
+    "are-we-there-yet": "^4.0.2",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto-random-string": "^5.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
+    "gauge": "^5.0.2",
+    "glob": "^11.0.1",
+    "inflight": "^1.0.6",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "node-schedule": "^2.1.1",
+    "nodemailer": "^6.10.0",
+    "nodemon": "^3.1.9",
+    "npmlog": "^7.0.1",
+    "otp-generator": "^4.0.1",
+    "razorpay": "^2.9.5",
+    "rimraf": "^6.0.1"
+  }
 }

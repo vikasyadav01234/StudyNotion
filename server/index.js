@@ -1,8 +1,8 @@
 // Importing necessary modules and packages
 const express = require("express");
 const app = express();
-const userRoutes = require("./routes/user");
-const profileRoutes = require("./routes/profile");
+const userRoutes = require("./routes/User");
+const profileRoutes = require("./routes/Profile");
 const courseRoutes = require("./routes/Course");
 const paymentRoutes = require("./routes/Payments");
 const contactUsRoute = require("./routes/Contact");
