@@ -1,62 +1,57 @@
-import { useEffect, useState } from "react"
-import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai"
-import { BsChevronDown } from "react-icons/bs"
-import { useSelector } from "react-redux"
-import { Link, matchPath, useLocation } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
+import { BsChevronDown } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { Link, matchPath, useLocation } from "react-router-dom";
 
-import logo from "../../assets/Logo/Logo-Full-Light.png"
-import { NavbarLinks } from "../../data/navbar-links"
-import { apiConnector } from "../../services/apiConnector"
-import { categories } from "../../services/apis"
-import { ACCOUNT_TYPE } from "../../utils/constants"
-import ProfileDropdown from "../core/Auth/ProfileDropDown"
+import logo from "../../assets/Logo/Logo-Full-Light.png";
+import { NavbarLinks } from "../../data/navbar-links";
+import { apiConnector } from "../../services/apiconnector";
+import { categories } from "../../services/apis";
+import { ACCOUNT_TYPE } from "../../utils/constants";
+import ProfileDropdown from "../core/Auth/ProfileDropDown";
 
-// const subLinks = [
-//   {
-//     title: "Python",
-//     link: "/catalog/python",
-//   },
-//   {
-//     title: "javascript",
-//     link: "/catalog/javascript",
-//   },
-//   {
-//     title: "web-development",
-//     link: "/catalog/web-development",
-//   },
-//   {
-//     title: "Android Development",
-//     link: "/catalog/Android Development",
-//   },
-// ];
+const slugify = (str = "") =>
+  String(str).trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
 
-function Navbar() {
-  const { token } = useSelector((state) => state.auth)
-  const { user } = useSelector((state) => state.profile)
-  const { totalItems } = useSelector((state) => state.cart)
-  const location = useLocation()
+export default function Navbar() {
+  const token = useSelector((s) => s.auth?.token ?? null);
+  const user = useSelector((s) => s.profile?.user ?? null);
+  const totalItems = useSelector((s) => s.cart?.totalItems ?? 0);
+  const location = useLocation();
 
-  const [subLinks, setSubLinks] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [subLinks, setSubLinks] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Mobile toggle
+  const [catalogOpen, setCatalogOpen] = useState(false);
+  // Desktop hover state (keeps dropdown open while mouse is inside trigger or dropdown)
+  const [hoveringCatalog, setHoveringCatalog] = useState(false);
 
   useEffect(() => {
-    ;(async () => {
-      setLoading(true)
+    let mounted = true;
+    (async () => {
+      setLoading(true);
       try {
-        const res = await apiConnector("GET", categories.CATEGORIES_API)
-        setSubLinks(res.data.data)
-      } catch (error) {
-        console.log("Could not fetch Categories.", error)
+        const res = await apiConnector("GET", categories.CATEGORIES_API);
+        const cats = res?.data?.data ?? res?.data ?? [];
+        if (mounted) setSubLinks(Array.isArray(cats) ? cats : []);
+      } catch (err) {
+        console.error("Could not fetch categories:", err);
+        if (mounted) setSubLinks([]);
+      } finally {
+        if (mounted) setLoading(false);
       }
-      setLoading(false)
-    })()
-  }, [])
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
-  // console.log("sub links", subLinks)
+  const matchRoute = (route) => matchPath({ path: route }, location.pathname);
 
-  const matchRoute = (route) => {
-    return matchPath({ path: route }, location.pathname)
-  }
+  // show dropdown on desktop when hoveringCatalog === true
+  const showDropdownDesktop = hoveringCatalog;
 
   return (
     <div
@@ -65,64 +60,67 @@ function Navbar() {
       } transition-all duration-200`}
     >
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
-        {/* Logo */}
         <Link to="/">
           <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
         </Link>
-        {/* Navigation links */}
+
+        {/* Desktop nav */}
         <nav className="hidden md:block">
           <ul className="flex gap-x-6 text-richblack-25">
-            {NavbarLinks.map((link, index) => (
-              <li key={index}>
+            {NavbarLinks.map((link, idx) => (
+              <li key={idx}>
                 {link.title === "Catalog" ? (
-                  <>
+                  // Add onMouseEnter/Leave to the wrapper so hoveringCatalog stays true
+                  <div
+                    className={`relative flex cursor-pointer items-center gap-1 ${
+                      matchRoute("/catalog/:catalogName") ? "text-yellow-25" : "text-richblack-25"
+                    }`}
+                    onMouseEnter={() => setHoveringCatalog(true)}
+                    onMouseLeave={() => setHoveringCatalog(false)}
+                  >
+                    <p>{link.title}</p>
+                    <BsChevronDown />
+
+                    {/* Dropdown: positioned directly under trigger with no gap (top-full + mt-2) */}
                     <div
-                      className={`group relative flex cursor-pointer items-center gap-1 ${
-                        matchRoute("/catalog/:catalogName")
-                          ? "text-yellow-25"
-                          : "text-richblack-25"
-                      }`}
+                      className={`absolute left-1/2 top-full z-[1000] w-[220px] -translate-x-1/2 mt-2 flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 transition-all duration-150 ${
+                        showDropdownDesktop ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
+                      } lg:w-[300px]`}
+                      // also allow the dropdown to keep hover state if mouse enters dropdown itself
+                      onMouseEnter={() => setHoveringCatalog(true)}
+                      onMouseLeave={() => setHoveringCatalog(false)}
                     >
-                      <p>{link.title}</p>
-                      <BsChevronDown />
-                      <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
-                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
-                        {loading ? (
-                          <p className="text-center">Loading...</p>
-                        ) : subLinks.length ? (
-                          <>
-                            {subLinks
-                              ?.filter(
-                                (subLink) => subLink?.courses?.length > 0
-                              )
-                              ?.map((subLink, i) => (
-                                <Link
-                                  to={`/catalog/${subLink.name
-                                    .split(" ")
-                                    .join("-")
-                                    .toLowerCase()}`}
-                                  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
-                                  key={i}
-                                >
-                                  <p>{subLink.name}</p>
-                                </Link>
-                              ))}
-                          </>
-                        ) : (
-                          <p className="text-center">No Courses Found</p>
-                        )}
-                      </div>
+                      <div className="absolute left-1/2 top-0 -z-10 h-4 w-4 -translate-x-1/2 -translate-y-2 rotate-45 bg-richblack-5" />
+
+                      {loading ? (
+                        <p className="text-center">Loading...</p>
+                      ) : subLinks?.length > 0 ? (
+                        subLinks
+                          .filter((s) => {
+                            if (!s) return false;
+                            if (Array.isArray(s.courses)) return s.courses.length > 0;
+                            return true;
+                          })
+                          .map((s, i) => {
+                            const name = s?.name ?? s?.title ?? `category-${i}`;
+                            return (
+                              <Link
+                                key={s?._id ?? name}
+                                to={`/catalog/${slugify(name)}`}
+                                className="block rounded-lg bg-transparent py-3 px-2 hover:bg-richblack-50"
+                              >
+                                <p>{name}</p>
+                              </Link>
+                            );
+                          })
+                      ) : (
+                        <p className="text-center">No Courses Found</p>
+                      )}
                     </div>
-                  </>
+                  </div>
                 ) : (
                   <Link to={link?.path}>
-                    <p
-                      className={`${
-                        matchRoute(link?.path)
-                          ? "text-yellow-25"
-                          : "text-richblack-25"
-                      }`}
-                    >
+                    <p className={`${matchRoute(link?.path) ? "text-yellow-25" : "text-richblack-25"}`}>
                       {link.title}
                     </p>
                   </Link>
@@ -131,7 +129,8 @@ function Navbar() {
             ))}
           </ul>
         </nav>
-        {/* Login / Signup / Dashboard */}
+
+        {/* Right side (desktop) */}
         <div className="hidden items-center gap-x-4 md:flex">
           {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
             <Link to="/dashboard/cart" className="relative">
@@ -143,28 +142,53 @@ function Navbar() {
               )}
             </Link>
           )}
-          {token === null && (
+
+          {!token && (
             <Link to="/login">
               <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
                 Log in
               </button>
             </Link>
           )}
-          {token === null && (
+          {!token && (
             <Link to="/signup">
               <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
                 Sign up
               </button>
             </Link>
           )}
-          {token !== null && <ProfileDropdown />}
+          {token && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
-      </div>
-    </div>
-  )
-}
 
-export default Navbar
+        {/* Mobile button */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button className="mr-2" onClick={() => setCatalogOpen((p) => !p)} aria-expanded={catalogOpen}>
+            <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown */}
+      {catalogOpen && (
+        <div className="absolute top-[3.5rem] left-0 right-0 z-50 bg-richblack-800/95 p-4 md:hidden">
+          <ul className="flex flex-col gap-2">
+            {loading ? (
+              <li>Loading...</li>
+            ) : subLinks?.length > 0 ? (
+              subLinks.map((s, i) => (
+                <li key={s?._id ?? i}>
+                  <Link to={`/catalog/${slugify(s?.name ?? s?.title ?? `category-${i}`)}`} className="block py-2 px-3">
+                    {s?.name ?? s?.title ?? `Category ${i + 1}`}
+                  </Link>
+                </li>
+              ))
+            ) : (
+              <li>No categories found</li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+ 
